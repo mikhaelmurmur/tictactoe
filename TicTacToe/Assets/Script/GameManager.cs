@@ -60,9 +60,10 @@ public class GameManager : MonoBehaviour
                         boardCheck[row, column] = 2;
                     }
                     cell.FillCell();
-                    if(CheckGame())
+                    if (CheckGame())
                     {
-                        EventManager.Instance.Call(EventManager.events.GameEnded, null);
+                        ResetVisualBoard(cellStates.full);
+                        //EventManager.Instance.Call(EventManager.events.GameEnded, null);
                     }
                 }
             }
@@ -76,16 +77,31 @@ public class GameManager : MonoBehaviour
         {
             Destroy(element);
         }
-        for (int row = 0; row < ROWS;row++)
+        ResetVisualBoard(cellStates.free);
+    }
+
+
+    enum cellStates
+    {
+        free,
+        full
+    }
+
+    void ResetVisualBoard(cellStates state)
+    {
+        for (int row = 0; row < ROWS; row++)
         {
-            for(int column=0;column<COLUMNS;column++)
+            for (int column = 0; column < COLUMNS; column++)
             {
                 boardCheck[row, column] = -1;
             }
         }
-        foreach(TapElementController cell in cells)
+        foreach (TapElementController cell in cells)
         {
-            cell.SetFree();
+            if (state == cellStates.free)
+                cell.SetFree();
+            else
+                cell.FillCell();
         }
     }
 
@@ -108,8 +124,19 @@ public class GameManager : MonoBehaviour
         if (TicTacToeLineCheck(boardCheck[0, 2], boardCheck[1, 1], boardCheck[2, 0]))
             return true;
 
-        return false;
+        for (int row = 0; row < ROWS; row++)
+        {
+            for (int column = 0; column < COLUMNS; column++)
+            {
+                if (boardCheck[row, column] == -1)
+                    return false;
+            }
+        }
+
+        return true;
     }
+
+
 
     bool TicTacToeLineCheck(int one, int two, int three)
     {
@@ -117,4 +144,10 @@ public class GameManager : MonoBehaviour
             return false;
         return ((one == two) && (two == three));
     }
+
+    public void NewGame()
+    {
+        ResetBoard(null);
+    }
+
 }
