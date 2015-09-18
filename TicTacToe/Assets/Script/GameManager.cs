@@ -2,10 +2,32 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class GameManager : MonoBehaviour
+public enum Turn
+{
+    cross,
+    zero,
+    draw
+}
+
+public enum Winner
+{
+    player,
+    AI,
+    draw
+}
+
+public enum TurnPlayers
+{
+    player,
+    AI
+}
+
+public class GameManager : Singleton<GameManager>
 {
     [SerializeField]
     Turn startTurn = Turn.cross;
+    [SerializeField]
+    TurnPlayers whoStarts = TurnPlayers.player;
     [SerializeField]
     TapElementController[] cells;
     [SerializeField]
@@ -15,6 +37,7 @@ public class GameManager : MonoBehaviour
     int[,] boardCheck = new int[3, 3];
     const int ROWS = 3;
     const int COLUMNS = 3;
+
     void OnEnable()
     {
         DontDestroyOnLoad(this);
@@ -26,19 +49,23 @@ public class GameManager : MonoBehaviour
 
     void OnDisable()
     {
-        EventManager.Instance.Remove(EventManager.events.CellTaped, TurnDone);
-        EventManager.Instance.Remove(EventManager.events.GameEnded, ResetBoard);
+        if (EventManager.Instance != null)
+        {
+            EventManager.Instance.Remove(EventManager.events.CellTaped, TurnDone);
+            EventManager.Instance.Remove(EventManager.events.GameEnded, ResetBoard);
+        }
     }
-
-    public enum Turn
-    {
-        cross,
-        zero
-    }
-
 
     void TurnDone(object[] args)
     {
+        if (whoStarts == TurnPlayers.player)
+        {
+            whoStarts = TurnPlayers.AI;
+        }
+        else
+        {
+            whoStarts = TurnPlayers.player;
+        }
         int row = (int)args[0];
         int column = (int)args[1];
         foreach (TapElementController cell in cells)
@@ -60,10 +87,17 @@ public class GameManager : MonoBehaviour
                         boardCheck[row, column] = 2;
                     }
                     cell.FillCell();
-                    if (CheckGame())
+                    if (CheckGame(boardCheck))
                     {
                         ResetVisualBoard(cellStates.full);
-                        //EventManager.Instance.Call(EventManager.events.GameEnded, null);
+                    }
+                    else
+                    {
+                        if (whoStarts == TurnPlayers.AI)
+                        {
+                            Pair move = AI.Instance.GetNextMove(boardCheck, 3, 3, turn);
+                            TurnDone(new object[] { move._row, move._column });
+                        }
                     }
                 }
             }
@@ -78,8 +112,8 @@ public class GameManager : MonoBehaviour
             Destroy(element);
         }
         ResetVisualBoard(cellStates.free);
+        whoStarts = TurnPlayers.player;
     }
-
 
     enum cellStates
     {
@@ -105,7 +139,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    bool CheckGame()
+    public bool CheckGame(int[,] boardCheck)
     {
         for (int row = 0; row < ROWS; row++)
         {
@@ -136,8 +170,6 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-
-
     bool TicTacToeLineCheck(int one, int two, int three)
     {
         if ((one == -1) || (two == -1) || (three == -1))
@@ -148,6 +180,56 @@ public class GameManager : MonoBehaviour
     public void NewGame()
     {
         ResetBoard(null);
+    }
+
+    public Turn GetWinner(int[,] board)
+    {
+        for (int row = 0; row < ROWS; row++)
+        {
+            if (TicTacToeLineCheck(boardCheck[row, 0], boardCheck[row, 1], boardCheck[row, 2]))
+                if (boardCheck[row, 0] == 1)
+                {
+                    return Turn.cross;
+                }
+                else
+                {
+                    return Turn.zero;
+                }
+        }
+        for (int column = 0; column < COLUMNS; column++)
+        {
+            if (TicTacToeLineCheck(boardCheck[0, column], boardCheck[1, column], boardCheck[2, column]))
+                if (boardCheck[0, column] == 1)
+                {
+                    return Turn.cross;
+                }
+                else
+                {
+                    return Turn.zero;
+                }
+        }
+
+        if (TicTacToeLineCheck(boardCheck[0, 0], boardCheck[1, 1], boardCheck[2, 2]))
+            if (boardCheck[0, 0] == 1)
+            {
+                return Turn.cross;
+            }
+            else
+            {
+                return Turn.zero;
+            }
+
+        if (TicTacToeLineCheck(boardCheck[0, 2], boardCheck[1, 1], boardCheck[2, 0]))
+            if (boardCheck[0, 2] == 1)
+            {
+                return Turn.cross;
+            }
+            else
+            {
+                return Turn.zero;
+            }
+
+        return Turn.draw;
     }
 
 }

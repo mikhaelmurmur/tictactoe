@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public struct Pair
+{
+    public int _row, _column;
+}
+
 public class TapElementController : MonoBehaviour
 {
     public Collider2D tapZone;
@@ -30,10 +35,7 @@ public class TapElementController : MonoBehaviour
     }
 
 
-    public struct Pair
-    {
-        public int _row, _column;
-    }
+  
 
     public void SetFree()
     {
