@@ -37,7 +37,6 @@ public class EventManager :  Singleton<EventManager>
 
     public void Call(events callEvent, object[] args)
     {
-        Debug.LogError("Event called "+ callEvent.ToString());
         if(delegateList.ContainsKey(callEvent.ToString()))
         {
             foreach(delegateMethod method in delegateList[callEvent.ToString()])

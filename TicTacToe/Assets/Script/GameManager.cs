@@ -68,12 +68,14 @@ public class GameManager : Singleton<GameManager>
         }
         int row = (int)args[0];
         int column = (int)args[1];
+        bool isCellFound = false;
         foreach (TapElementController cell in cells)
         {
             if ((cell.GetPosition()._row == row) && (cell.GetPosition()._column == column))
             {
                 if (cell.isAvailable)
                 {
+                    isCellFound = true;
                     if (turn == Turn.cross)
                     {
                         elementsOnTheBoard.Add((GameObject)Instantiate(cross, cell.transform.position, cell.transform.rotation));
@@ -102,7 +104,17 @@ public class GameManager : Singleton<GameManager>
                 }
             }
         }
-
+        if (!isCellFound)
+        {
+            if (whoStarts == TurnPlayers.player)
+            {
+                whoStarts = TurnPlayers.AI;
+            }
+            else
+            {
+                whoStarts = TurnPlayers.player;
+            }
+        }
     }
 
     void ResetBoard(object[] obj)

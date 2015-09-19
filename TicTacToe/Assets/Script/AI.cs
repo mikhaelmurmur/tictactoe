@@ -26,7 +26,7 @@ public class AI : Singleton<AI>
     int GetScore(int[,] board, int depth)
     {
         Turn winner = GameManager.Instance.GetWinner(board);
-        if (winner == startTurn)
+        if (winner != startTurn)
         {
             return depth-10;
         }
@@ -43,7 +43,6 @@ public class AI : Singleton<AI>
         {
             return GetScore(board, depth);
         }
-
         List<Pair> freeCells = new List<Pair>();
         List<int> scores = new List<int>();
 
@@ -80,7 +79,7 @@ public class AI : Singleton<AI>
         #region estimating score
         if (scores.Count > 0)
         {
-            if (turn == startTurn)
+            if (turn != startTurn)
             {
                 int minScoreIndex = scores.IndexOf(scores.Min(x => x));
                 choice = freeCells[minScoreIndex];
@@ -95,7 +94,7 @@ public class AI : Singleton<AI>
         }
         else
         {
-            return 0;
+            return -10;
         }
         #endregion
     }
