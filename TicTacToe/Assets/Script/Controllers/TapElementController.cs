@@ -19,7 +19,6 @@ public class TapElementController : MonoBehaviour
     void OnMouseDown()
     {
         {
-            Debug.Log("touched " + row + " and " + column);
             EventManager.Instance.Call(EventManager.events.CellTaped, new object[] { row, column });
         }
     }
@@ -33,9 +32,6 @@ public class TapElementController : MonoBehaviour
     {
         isAvailable = false;
     }
-
-
-  
 
     public void SetFree()
     {

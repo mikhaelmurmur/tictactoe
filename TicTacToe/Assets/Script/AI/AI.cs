@@ -9,6 +9,7 @@ public class AI : Singleton<AI>
     int rows = 3;
     Turn startTurn;
     Pair choice;
+    public GameManager gameManager;
     public Pair GetNextMove(int[,] board, int rows, int columns, Turn turn)
     {
         this.columns = columns;
@@ -20,12 +21,12 @@ public class AI : Singleton<AI>
 
     bool IsGameOver(int[,] board)
     {
-        return GameManager.Instance.CheckGame(board);
+        return gameManager.CheckGame(board);
     }
 
     int GetScore(int[,] board, int depth)
     {
-        Turn winner = GameManager.Instance.GetWinner(board);
+        Turn winner = gameManager.GetWinner(board);
         if (winner != startTurn)
         {
             return depth-10;

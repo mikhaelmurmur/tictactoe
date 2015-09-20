@@ -10,7 +10,10 @@ public class EventManager :  Singleton<EventManager>
     public enum events
     {
         CellTaped,
-        GameEnded
+        GameEnded,
+        playClick,
+        setSoundOption,
+        getSoundPrefs
     }
 
     public void Add(events name, delegateMethod functionToCall)

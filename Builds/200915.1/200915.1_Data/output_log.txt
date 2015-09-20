@@ -1,0 +1,280 @@
+Initialize engine version: 5.1.1f1 (2046fc06d4d8)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 10.1]
+    Renderer: Intel(R) HD Graphics 3000 (ID=0x116)
+    Vendor:   Intel
+    VRAM:     128 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: D:\Programming\Projects\TicTacToe\Builds\200915.1\200915.1_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading D:\Programming\Projects\TicTacToe\Builds\200915.1\200915.1_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: D:\Programming\Projects\TicTacToe\Builds\200915.1\200915.1_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading D:\Programming\Projects\TicTacToe\Builds\200915.1\200915.1_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: D:\Programming\Projects\TicTacToe\Builds\200915.1\200915.1_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading D:\Programming\Projects\TicTacToe\Builds\200915.1\200915.1_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: D:\Programming\Projects\TicTacToe\Builds\200915.1\200915.1_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading D:\Programming\Projects\TicTacToe\Builds\200915.1\200915.1_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: D:\Programming\Projects\TicTacToe\Builds\200915.1\200915.1_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading D:\Programming\Projects\TicTacToe\Builds\200915.1\200915.1_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: D:\Programming\Projects\TicTacToe\Builds\200915.1\200915.1_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
+Loading D:\Programming\Projects\TicTacToe\Builds\200915.1\200915.1_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
+Platform assembly: D:\Programming\Projects\TicTacToe\Builds\200915.1\200915.1_Data\Managed\DOTween.dll (this message is harmless)
+Loading D:\Programming\Projects\TicTacToe\Builds\200915.1\200915.1_Data\Managed\DOTween.dll into Unity Child Domain
+Platform assembly: D:\Programming\Projects\TicTacToe\Builds\200915.1\200915.1_Data\Managed\DOTween43.dll (this message is harmless)
+Loading D:\Programming\Projects\TicTacToe\Builds\200915.1\200915.1_Data\Managed\DOTween43.dll into Unity Child Domain
+Platform assembly: D:\Programming\Projects\TicTacToe\Builds\200915.1\200915.1_Data\Managed\DOTween46.dll (this message is harmless)
+Loading D:\Programming\Projects\TicTacToe\Builds\200915.1\200915.1_Data\Managed\DOTween46.dll into Unity Child Domain
+Platform assembly: D:\Programming\Projects\TicTacToe\Builds\200915.1\200915.1_Data\Managed\DOTween50.dll (this message is harmless)
+Loading D:\Programming\Projects\TicTacToe\Builds\200915.1\200915.1_Data\Managed\DOTween50.dll into Unity Child Domain
+- Completed reload, in  0.066 seconds
+desktop: 1366x768 60Hz; virtual: 3286x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+Platform assembly: D:\Programming\Projects\TicTacToe\Builds\200915.1\200915.1_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: D:\Programming\Projects\TicTacToe\Builds\200915.1\200915.1_Data\Managed\System.dll (this message is harmless)
+[Singleton] Using instance already created: AudioManager
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 4.934410 ms
+[Singleton] An instance of EventManager is needed in the scene, so '(singleton) EventManager (UnityEngine.GameObject)' was created with DontDestroyOnLoad.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 296.
+Total: 0.367760 ms (FindLiveObjects: 0.063716 ms CreateObjectMapping: 0.040197 ms MarkObjects: 0.249735 ms  DeleteObjects: 0.012828 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.630976 ms
+
+Unloading 20 unused Assets to reduce memory usage. Loaded Objects now: 294.
+Total: 0.635456 ms (FindLiveObjects: 0.014967 ms CreateObjectMapping: 0.024802 ms MarkObjects: 0.466115 ms  DeleteObjects: 0.128716 ms)
+
+[Singleton] Instance 'AudioManager' already destroyed on application quit. Won't create again - returning null.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at MainMenuController.FXAudioChange (Boolean desicion) [0x00000] in <filename unknown>:0 
+  at UnityEngine.Events.InvokableCall`1[System.Boolean].Invoke (System.Object[] args) [0x00000] in <filename unknown>:0 
+  at UnityEngine.Events.InvokableCallList.Invoke (System.Object[] parameters) [0x00000] in <filename unknown>:0 
+  at UnityEngine.Events.UnityEventBase.Invoke (System.Object[] parameters) [0x00000] in <filename unknown>:0 
+  at UnityEngine.Events.UnityEvent`1[System.Boolean].Invoke (Boolean arg0) [0x00000] in <filename unknown>:0 
+  at UnityEngine.UI.Toggle.Set (Boolean value, Boolean sendCallback) [0x00000] in <filename unknown>:0 
+  at UnityEngine.UI.Toggle.Set (Boolean value) [0x00000] in <filename unknown>:0 
+  at UnityEngine.UI.Toggle.set_isOn (Boolean value) [0x00000] in <filename unknown>:0 
+  at UnityEngine.UI.Toggle.InternalToggle () [0x00000] in <filename unknown>:0 
+  at UnityEngine.UI.Toggle.OnPointerClick (UnityEngine.EventSystems.PointerEventData eventData) [0x00000] in <filename unknown>:0 
+  at UnityEngine.EventSystems.ExecuteEvents.Execute (IPointerClickHandler handler, UnityEngine.EventSystems.BaseEventData eventData) [0x00000] in <filename unknown>:0 
+  at UnityEngine.EventSystems.ExecuteEvents.Execute[IPointerClickHandler] (UnityEngine.GameObject target, UnityEngine.EventSystems.BaseEventData eventData, UnityEngine.EventSystems.EventFunction`1 functor) [0x00000] in <filename unknown>:0 
+UnityEngine.Debug:Internal_LogException(Exception, Object)
+UnityEngine.Debug:LogException(Exception)
+UnityEngine.EventSystems.ExecuteEvents:Execute(GameObject, BaseEventData, EventFunction`1)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMousePress(MouseButtonEventData)
+UnityEngine.EventSystems.StandaloneInputModule:ProcessMouseEvent()
+UnityEngine.EventSystems.StandaloneInputModule:Process()
+UnityEngine.EventSystems.EventSystem:Update()
+ 
+(Filename:  Line: -1)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.691048 ms
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 299.
+Total: 0.387004 ms (FindLiveObjects: 0.059440 ms CreateObjectMapping: 0.037203 ms MarkObjects: 0.274537 ms  DeleteObjects: 0.013256 ms)
+
+[Singleton] Instance 'AudioManager' already destroyed on application quit. Won't create again - returning null.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at GameManager.TurnDone (System.Object[] args) [0x00000] in <filename unknown>:0 
+  at EventManager.Call (events callEvent, System.Object[] args) [0x00000] in <filename unknown>:0 
+  at TapElementController.OnMouseDown () [0x00000] in <filename unknown>:0 
+UnityEngine.GameObject:SendMessage(String, Object, SendMessageOptions)
+UnityEngine.HitInfo:SendMessage(String)
+UnityEngine.SendMouseEvents:SendEvents(Int32, HitInfo)
+UnityEngine.SendMouseEvents:DoSendMouseEvents(Int32, Int32)
+ 
+(Filename:  Line: -1)
+
+[Singleton] Instance 'AudioManager' already destroyed on application quit. Won't create again - returning null.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at GameManager.TurnDone (System.Object[] args) [0x00000] in <filename unknown>:0 
+  at EventManager.Call (events callEvent, System.Object[] args) [0x00000] in <filename unknown>:0 
+  at TapElementController.OnMouseDown () [0x00000] in <filename unknown>:0 
+UnityEngine.GameObject:SendMessage(String, Object, SendMessageOptions)
+UnityEngine.HitInfo:SendMessage(String)
+UnityEngine.SendMouseEvents:SendEvents(Int32, HitInfo)
+UnityEngine.SendMouseEvents:DoSendMouseEvents(Int32, Int32)
+ 
+(Filename:  Line: -1)
+
+[Singleton] Instance 'AudioManager' already destroyed on application quit. Won't create again - returning null.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at GameManager.TurnDone (System.Object[] args) [0x00000] in <filename unknown>:0 
+  at EventManager.Call (events callEvent, System.Object[] args) [0x00000] in <filename unknown>:0 
+  at TapElementController.OnMouseDown () [0x00000] in <filename unknown>:0 
+UnityEngine.GameObject:SendMessage(String, Object, SendMessageOptions)
+UnityEngine.HitInfo:SendMessage(String)
+UnityEngine.SendMouseEvents:SendEvents(Int32, HitInfo)
+UnityEngine.SendMouseEvents:DoSendMouseEvents(Int32, Int32)
+ 
+(Filename:  Line: -1)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.567891 ms
+
+Unloading 20 unused Assets to reduce memory usage. Loaded Objects now: 297.
+Total: 0.822758 ms (FindLiveObjects: 0.073979 ms CreateObjectMapping: 0.047466 ms MarkObjects: 0.555917 ms  DeleteObjects: 0.144110 ms)
+
+[Singleton] Instance 'AudioManager' already destroyed on application quit. Won't create again - returning null.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at MainMenuController.Start () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.706442 ms
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 299.
+Total: 0.377596 ms (FindLiveObjects: 0.057302 ms CreateObjectMapping: 0.039341 ms MarkObjects: 0.267268 ms  DeleteObjects: 0.011973 ms)
+
+[Singleton] Instance 'AudioManager' already destroyed on application quit. Won't create again - returning null.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at GameManager.TurnDone (System.Object[] args) [0x00000] in <filename unknown>:0 
+  at EventManager.Call (events callEvent, System.Object[] args) [0x00000] in <filename unknown>:0 
+  at TapElementController.OnMouseDown () [0x00000] in <filename unknown>:0 
+UnityEngine.GameObject:SendMessage(String, Object, SendMessageOptions)
+UnityEngine.HitInfo:SendMessage(String)
+UnityEngine.SendMouseEvents:SendEvents(Int32, HitInfo)
+UnityEngine.SendMouseEvents:DoSendMouseEvents(Int32, Int32)
+ 
+(Filename:  Line: -1)
+
+[Singleton] Instance 'AudioManager' already destroyed on application quit. Won't create again - returning null.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at GameManager.TurnDone (System.Object[] args) [0x00000] in <filename unknown>:0 
+  at EventManager.Call (events callEvent, System.Object[] args) [0x00000] in <filename unknown>:0 
+  at TapElementController.OnMouseDown () [0x00000] in <filename unknown>:0 
+UnityEngine.GameObject:SendMessage(String, Object, SendMessageOptions)
+UnityEngine.HitInfo:SendMessage(String)
+UnityEngine.SendMouseEvents:SendEvents(Int32, HitInfo)
+UnityEngine.SendMouseEvents:DoSendMouseEvents(Int32, Int32)
+ 
+(Filename:  Line: -1)
+
+[Singleton] Instance 'AudioManager' already destroyed on application quit. Won't create again - returning null.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at GameManager.TurnDone (System.Object[] args) [0x00000] in <filename unknown>:0 
+  at EventManager.Call (events callEvent, System.Object[] args) [0x00000] in <filename unknown>:0 
+  at TapElementController.OnMouseDown () [0x00000] in <filename unknown>:0 
+UnityEngine.GameObject:SendMessage(String, Object, SendMessageOptions)
+UnityEngine.HitInfo:SendMessage(String)
+UnityEngine.SendMouseEvents:SendEvents(Int32, HitInfo)
+UnityEngine.SendMouseEvents:DoSendMouseEvents(Int32, Int32)
+ 
+(Filename:  Line: -1)
+
+[Singleton] Instance 'AudioManager' already destroyed on application quit. Won't create again - returning null.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at GameManager.TurnDone (System.Object[] args) [0x00000] in <filename unknown>:0 
+  at EventManager.Call (events callEvent, System.Object[] args) [0x00000] in <filename unknown>:0 
+  at TapElementController.OnMouseDown () [0x00000] in <filename unknown>:0 
+UnityEngine.GameObject:SendMessage(String, Object, SendMessageOptions)
+UnityEngine.HitInfo:SendMessage(String)
+UnityEngine.SendMouseEvents:SendEvents(Int32, HitInfo)
+UnityEngine.SendMouseEvents:DoSendMouseEvents(Int32, Int32)
+ 
+(Filename:  Line: -1)
+
+[Singleton] Instance 'AudioManager' already destroyed on application quit. Won't create again - returning null.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at GameManager.TurnDone (System.Object[] args) [0x00000] in <filename unknown>:0 
+  at EventManager.Call (events callEvent, System.Object[] args) [0x00000] in <filename unknown>:0 
+  at TapElementController.OnMouseDown () [0x00000] in <filename unknown>:0 
+UnityEngine.GameObject:SendMessage(String, Object, SendMessageOptions)
+UnityEngine.HitInfo:SendMessage(String)
+UnityEngine.SendMouseEvents:SendEvents(Int32, HitInfo)
+UnityEngine.SendMouseEvents:DoSendMouseEvents(Int32, Int32)
+ 
+(Filename:  Line: -1)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.590983 ms
+
+Unloading 20 unused Assets to reduce memory usage. Loaded Objects now: 297.
+Total: 1.035717 ms (FindLiveObjects: 0.057729 ms CreateObjectMapping: 0.028651 ms MarkObjects: 0.747923 ms  DeleteObjects: 0.200557 ms)
+
+[Singleton] Instance 'AudioManager' already destroyed on application quit. Won't create again - returning null.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at MainMenuController.Start () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.655127 ms
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 299.
+Total: 0.371181 ms (FindLiveObjects: 0.056874 ms CreateObjectMapping: 0.037203 ms MarkObjects: 0.266412 ms  DeleteObjects: 0.009835 ms)
+
+[Singleton] Instance 'AudioManager' already destroyed on application quit. Won't create again - returning null.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at GameManager.TurnDone (System.Object[] args) [0x00000] in <filename unknown>:0 
+  at EventManager.Call (events callEvent, System.Object[] args) [0x00000] in <filename unknown>:0 
+  at TapElementController.OnMouseDown () [0x00000] in <filename unknown>:0 
+UnityEngine.GameObject:SendMessage(String, Object, SendMessageOptions)
+UnityEngine.HitInfo:SendMessage(String)
+UnityEngine.SendMouseEvents:SendEvents(Int32, HitInfo)
+UnityEngine.SendMouseEvents:DoSendMouseEvents(Int32, Int32)
+ 
+(Filename:  Line: -1)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.630325 ms
+
+Unloading 20 unused Assets to reduce memory usage. Loaded Objects now: 297.
+Total: 0.837725 ms (FindLiveObjects: 0.081677 ms CreateObjectMapping: 0.058585 ms MarkObjects: 0.519569 ms  DeleteObjects: 0.174472 ms)
+
+[Singleton] Instance 'AudioManager' already destroyed on application quit. Won't create again - returning null.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at MainMenuController.Start () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+

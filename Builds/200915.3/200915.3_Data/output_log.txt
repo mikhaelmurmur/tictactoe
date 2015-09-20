@@ -1,0 +1,99 @@
+Initialize engine version: 5.1.1f1 (2046fc06d4d8)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 10.1]
+    Renderer: Intel(R) HD Graphics 3000 (ID=0x116)
+    Vendor:   Intel
+    VRAM:     128 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: D:\Programming\Projects\TicTacToe\Builds\200915.3\200915.3_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading D:\Programming\Projects\TicTacToe\Builds\200915.3\200915.3_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: D:\Programming\Projects\TicTacToe\Builds\200915.3\200915.3_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading D:\Programming\Projects\TicTacToe\Builds\200915.3\200915.3_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: D:\Programming\Projects\TicTacToe\Builds\200915.3\200915.3_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading D:\Programming\Projects\TicTacToe\Builds\200915.3\200915.3_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: D:\Programming\Projects\TicTacToe\Builds\200915.3\200915.3_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading D:\Programming\Projects\TicTacToe\Builds\200915.3\200915.3_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: D:\Programming\Projects\TicTacToe\Builds\200915.3\200915.3_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading D:\Programming\Projects\TicTacToe\Builds\200915.3\200915.3_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: D:\Programming\Projects\TicTacToe\Builds\200915.3\200915.3_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
+Loading D:\Programming\Projects\TicTacToe\Builds\200915.3\200915.3_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
+Platform assembly: D:\Programming\Projects\TicTacToe\Builds\200915.3\200915.3_Data\Managed\DOTween.dll (this message is harmless)
+Loading D:\Programming\Projects\TicTacToe\Builds\200915.3\200915.3_Data\Managed\DOTween.dll into Unity Child Domain
+Platform assembly: D:\Programming\Projects\TicTacToe\Builds\200915.3\200915.3_Data\Managed\DOTween43.dll (this message is harmless)
+Loading D:\Programming\Projects\TicTacToe\Builds\200915.3\200915.3_Data\Managed\DOTween43.dll into Unity Child Domain
+Platform assembly: D:\Programming\Projects\TicTacToe\Builds\200915.3\200915.3_Data\Managed\DOTween46.dll (this message is harmless)
+Loading D:\Programming\Projects\TicTacToe\Builds\200915.3\200915.3_Data\Managed\DOTween46.dll into Unity Child Domain
+Platform assembly: D:\Programming\Projects\TicTacToe\Builds\200915.3\200915.3_Data\Managed\DOTween50.dll (this message is harmless)
+Loading D:\Programming\Projects\TicTacToe\Builds\200915.3\200915.3_Data\Managed\DOTween50.dll into Unity Child Domain
+- Completed reload, in  0.083 seconds
+desktop: 1366x768 60Hz; virtual: 3286x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+Platform assembly: D:\Programming\Projects\TicTacToe\Builds\200915.3\200915.3_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: D:\Programming\Projects\TicTacToe\Builds\200915.3\200915.3_Data\Managed\System.dll (this message is harmless)
+[Singleton] An instance of EventManager is needed in the scene, so '(singleton) EventManager (UnityEngine.GameObject)' was created with DontDestroyOnLoad.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Music is set!
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Music is set!
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Music is set!
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 6.508940 ms
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 296.
+Total: 0.650851 ms (FindLiveObjects: 0.065427 ms CreateObjectMapping: 0.034210 ms MarkObjects: 0.536674 ms  DeleteObjects: 0.012828 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.076769 ms
+
+Unloading 20 unused Assets to reduce memory usage. Loaded Objects now: 294.
+Total: 0.818481 ms (FindLiveObjects: 0.073124 ms CreateObjectMapping: 0.076545 ms MarkObjects: 0.519141 ms  DeleteObjects: 0.147959 ms)
+
+Music is set!
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Music is set!
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Music is set!
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.602529 ms
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 299.
+Total: 0.392135 ms (FindLiveObjects: 0.064571 ms CreateObjectMapping: 0.038058 ms MarkObjects: 0.273254 ms  DeleteObjects: 0.014967 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.653417 ms
+
+Unloading 20 unused Assets to reduce memory usage. Loaded Objects now: 297.
+Total: 1.122953 ms (FindLiveObjects: 0.060295 ms CreateObjectMapping: 0.029078 ms MarkObjects: 0.800521 ms  DeleteObjects: 0.228781 ms)
+
+Music is set!
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Music is set!
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Music is set!
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+

@@ -37,13 +37,14 @@ public class GameManager : Singleton<GameManager>
     int[,] boardCheck = new int[3, 3];
     const int ROWS = 3;
     const int COLUMNS = 3;
-
+    public AI ai;
     void OnEnable()
     {
-        DontDestroyOnLoad(this);
         EventManager.Instance.Add(EventManager.events.CellTaped, TurnDone);
         EventManager.Instance.Add(EventManager.events.GameEnded, ResetBoard);
+
         turn = startTurn;
+        
         ResetBoard(null);
     }
 
@@ -54,6 +55,7 @@ public class GameManager : Singleton<GameManager>
             EventManager.Instance.Remove(EventManager.events.CellTaped, TurnDone);
             EventManager.Instance.Remove(EventManager.events.GameEnded, ResetBoard);
         }
+        Destroy(this);
     }
 
     void TurnDone(object[] args)
@@ -75,6 +77,8 @@ public class GameManager : Singleton<GameManager>
             {
                 if (cell.isAvailable)
                 {
+                    EventManager.Instance.Call(EventManager.events.playClick, new object[] { SoundTypes.click});
+                    //AudioManager.Instance.PlaySound(SoundTypes.click);
                     isCellFound = true;
                     if (turn == Turn.cross)
                     {
@@ -97,7 +101,7 @@ public class GameManager : Singleton<GameManager>
                     {
                         if (whoStarts == TurnPlayers.AI)
                         {
-                            Pair move = AI.Instance.GetNextMove(boardCheck, 3, 3, turn);
+                            Pair move = ai.GetNextMove(boardCheck, 3, 3, turn);
                             TurnDone(new object[] { move._row, move._column });
                         }
                     }
@@ -242,6 +246,12 @@ public class GameManager : Singleton<GameManager>
             }
 
         return Turn.draw;
+    }
+
+    public void BackToMenu()
+    {
+        ResetBoard(null);
+        Application.LoadLevel("MainMenu");
     }
 
 }
