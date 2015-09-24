@@ -38,14 +38,41 @@ public class GameManager : Singleton<GameManager>
     const int ROWS = 3;
     const int COLUMNS = 3;
     public AI ai;
+    Dictionary<GameResult, int> scores = new Dictionary<GameResult, int>();
+    KeyValuePair<TurnPlayers, Turn> startPair;
+    enum GameResult
+    {
+        firstPlayer,
+        draw,
+        secondPlayer
+    }
+
+    enum GameMode
+    {
+        AI,
+        player
+    };
+    enum cellStates
+    {
+        free,
+        full
+    }
+    GameMode mode = GameMode.AI;
     void OnEnable()
     {
         EventManager.Instance.Add(EventManager.events.CellTaped, TurnDone);
         EventManager.Instance.Add(EventManager.events.GameEnded, ResetBoard);
-
         turn = startTurn;
-        
         ResetBoard(null);
+        if (PlayerPrefs.HasKey("mode"))
+        {
+            mode = (GameMode)PlayerPrefs.GetInt("mode");
+        }
+        scores = new Dictionary<GameResult, int>();
+        scores.Add(GameResult.draw, 0);
+        scores.Add(GameResult.firstPlayer, 0);
+        scores.Add(GameResult.secondPlayer, 0);
+        startPair = new KeyValuePair<TurnPlayers, Turn>(TurnPlayers.player, Turn.cross);
     }
 
     void OnDisable()
@@ -60,13 +87,16 @@ public class GameManager : Singleton<GameManager>
 
     void TurnDone(object[] args)
     {
-        if (whoStarts == TurnPlayers.player)
+        if (mode == GameMode.AI)
         {
-            whoStarts = TurnPlayers.AI;
-        }
-        else
-        {
-            whoStarts = TurnPlayers.player;
+            if (whoStarts == TurnPlayers.player)
+            {
+                whoStarts = TurnPlayers.AI;
+            }
+            else
+            {
+                whoStarts = TurnPlayers.player;
+            }
         }
         int row = (int)args[0];
         int column = (int)args[1];
@@ -77,8 +107,7 @@ public class GameManager : Singleton<GameManager>
             {
                 if (cell.isAvailable)
                 {
-                    EventManager.Instance.Call(EventManager.events.playClick, new object[] { SoundTypes.click});
-                    //AudioManager.Instance.PlaySound(SoundTypes.click);
+                    EventManager.Instance.Call(EventManager.events.playClick, new object[] { SoundTypes.click });
                     isCellFound = true;
                     if (turn == Turn.cross)
                     {
@@ -95,14 +124,57 @@ public class GameManager : Singleton<GameManager>
                     cell.FillCell();
                     if (CheckGame(boardCheck))
                     {
+                        Turn winner = GetWinner(boardCheck);
+                        #region bad if for refactoring
+                        if (winner == startPair.Value)
+                        {
+                            scores[GameResult.firstPlayer] = scores[GameResult.firstPlayer] + 1;
+                        }
+                        else
+                        {
+                            if (winner == Turn.draw)
+                            {
+                                scores[GameResult.draw] = scores[GameResult.draw] + 1;
+                            }
+                            else
+                            {
+                                scores[GameResult.secondPlayer] = scores[GameResult.secondPlayer] + 1;
+                            }
+                        }
+
+
+
+                        //switch (winner)
+                        //{
+                        //    case Turn.cross:
+                        //        scores[GameResult.firstPlayer] = scores[GameResult.firstPlayer] + 1;
+                        //        break;
+                        //    case Turn.draw:
+                        //        scores[GameResult.draw] = scores[GameResult.draw] + 1;
+                        //        break;
+                        //    case Turn.zero:
+                        //        scores[GameResult.secondPlayer] = scores[GameResult.secondPlayer] + 1;
+                        //        break;
+                        //    default:
+                        //        throw new System.Exception("No winner");
+                        //}
+
+                        #endregion
+                        foreach (KeyValuePair<GameResult, int> entry in scores)
+                        {
+                            Debug.Log(entry.Key.ToString() + " " + entry.Value.ToString());
+                        }
                         ResetVisualBoard(cellStates.full);
                     }
                     else
                     {
-                        if (whoStarts == TurnPlayers.AI)
+                        if (mode == GameMode.AI)
                         {
-                            Pair move = ai.GetNextMove(boardCheck, 3, 3, turn);
-                            TurnDone(new object[] { move._row, move._column });
+                            if (whoStarts == TurnPlayers.AI)
+                            {
+                                Pair move = ai.GetNextMove(boardCheck, 3, 3, turn);
+                                TurnDone(new object[] { move._row, move._column });
+                            }
                         }
                     }
                 }
@@ -131,12 +203,6 @@ public class GameManager : Singleton<GameManager>
         whoStarts = TurnPlayers.player;
     }
 
-    enum cellStates
-    {
-        free,
-        full
-    }
-
     void ResetVisualBoard(cellStates state)
     {
         for (int row = 0; row < ROWS; row++)
@@ -153,6 +219,7 @@ public class GameManager : Singleton<GameManager>
             else
                 cell.FillCell();
         }
+        startPair = new KeyValuePair<TurnPlayers, Turn>(TurnPlayers.player, startTurn);
     }
 
     public bool CheckGame(int[,] boardCheck)

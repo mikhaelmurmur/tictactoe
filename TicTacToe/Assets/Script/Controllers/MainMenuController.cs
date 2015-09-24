@@ -6,9 +6,12 @@ using UnityEngine.UI;
 public class MainMenuController : MonoBehaviour
 {
     [SerializeField]
-    GameObject mainMenu, optionsMenu;
+    GameObject mainMenu, optionsMenu, gamemodeMenu;
     [SerializeField]
     Toggle fxToggle, bgToggle;
+    GameObject menuMoved;
+    [SerializeField]
+    Toggle AIToggle, playerToggle;
 
     void OnEnable()
     {
@@ -45,13 +48,38 @@ public class MainMenuController : MonoBehaviour
     public void ShowOptions()
     {
         mainMenu.transform.DOMoveX(-200, 2f);
+        menuMoved = optionsMenu;
         optionsMenu.transform.DOMoveX(Camera.main.pixelWidth / 2 + 50, 2f);
+    }
+
+    public void ShowGamemodes()
+    {
+        if(PlayerPrefs.HasKey("mode"))
+        {
+            int mode = PlayerPrefs.GetInt("mode");
+            if(mode==1)
+            {
+                playerToggle.isOn = true;            
+            }
+            else
+            {
+                AIToggle.isOn = true;
+            }
+        }
+        else
+        {
+            AIToggle.isOn = true;
+        }
+        mainMenu.transform.DOMoveX(-200, 2f);
+        menuMoved = gamemodeMenu;
+        gamemodeMenu.transform.DOMoveX(Camera.main.pixelWidth / 2 + 50, 2f);
     }
 
     public void BackToMainMenu()
     {
         mainMenu.transform.DOMoveX(Camera.main.pixelWidth / 2, 2f);
-        optionsMenu.transform.DOMoveX(Camera.main.pixelWidth + 100, 2f);
+        menuMoved.transform.DOMoveX(Camera.main.pixelWidth + 100, 2f);
+        menuMoved = null;
     }
 
     public void BgAudioChange(bool desicion)
@@ -62,5 +90,15 @@ public class MainMenuController : MonoBehaviour
     public void FXAudioChange(bool desicion)
     {
         EventManager.Instance.Call(EventManager.events.setSoundOption, new object[] { 1, desicion });
+    }
+
+    public void SetAIMode()
+    {
+        PlayerPrefs.SetInt("mode", 0);
+    }
+
+    public void SetPlayerMode()
+    {
+        PlayerPrefs.SetInt("mode", 1);
     }
 }
