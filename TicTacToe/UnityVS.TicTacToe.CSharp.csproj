@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.1.1f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -92,6 +94,7 @@
     <Compile Include="Assets\Script\Managers\AudioManager.cs" />
     <Compile Include="Assets\Script\Managers\EventManager.cs" />
     <Compile Include="Assets\Script\Managers\GameManager.cs" />
+    <Compile Include="Assets\Script\Utils\PlayerEntity.cs" />
     <Compile Include="Assets\Script\Utils\Singleton.cs" />
   </ItemGroup>
   <ItemGroup>

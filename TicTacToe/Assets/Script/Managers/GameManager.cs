@@ -4,321 +4,185 @@ using System.Collections.Generic;
 
 public enum Turn
 {
-    cross,
-    zero,
-    draw
-}
-
-public enum Winner
-{
-    player,
-    AI,
-    draw
-}
-
-public enum TurnPlayers
-{
-    player,
-    AI
+    firstPlayer,
+    secondPlayer
 }
 
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField]
-    Turn startTurn = Turn.cross;
-    [SerializeField]
-    TurnPlayers whoStarts = TurnPlayers.player;
+    const int COLUMNS = 3, ROWS = 3;
     [SerializeField]
     TapElementController[] cells;
     [SerializeField]
-    GameObject cross, zero;
-    Turn turn;
-    List<GameObject> elementsOnTheBoard = new List<GameObject>();
-    int[,] boardCheck = new int[3, 3];
-    const int ROWS = 3;
-    const int COLUMNS = 3;
-    public AI ai;
-    Dictionary<GameResult, int> scores = new Dictionary<GameResult, int>();
-    KeyValuePair<TurnPlayers, Turn> startPair;
-    enum GameResult
+    GameObject crossElement, zeroElement;
+    List<GameObject> elementsOnBoard = new List<GameObject>();
+    Side[,] board = new Side[ROWS, COLUMNS];
+    Turn startTurn = Turn.firstPlayer;
+    Turn currentTurn;
+    bool isAI = false;
+    PlayerEntity firstPlayer, secondPlayer;
+
+    private void OnEnable()
     {
-        firstPlayer,
-        draw,
-        secondPlayer
+        ResetBoard();
+        ChangeStartTurn();
+        EventManager.Instance.Add(EventManager.events.CellTaped, DoTurn);
+        AssignSides(startTurn);
     }
 
-    enum GameMode
+    private void AssignSides(Turn startTurn)
     {
-        AI,
-        player
-    };
-    enum cellStates
-    {
-        free,
-        full
-    }
-    GameMode mode = GameMode.AI;
-    void OnEnable()
-    {
-        EventManager.Instance.Add(EventManager.events.CellTaped, TurnDone);
-        EventManager.Instance.Add(EventManager.events.GameEnded, ResetBoard);
-        turn = startTurn;
-        ResetBoard(null);
-        if (PlayerPrefs.HasKey("mode"))
+        if (startTurn == Turn.firstPlayer)
         {
-            mode = (GameMode)PlayerPrefs.GetInt("mode");
+            firstPlayer.side = Side.cross;
+            secondPlayer.side = Side.zero;
         }
-        scores = new Dictionary<GameResult, int>();
-        scores.Add(GameResult.draw, 0);
-        scores.Add(GameResult.firstPlayer, 0);
-        scores.Add(GameResult.secondPlayer, 0);
-        startPair = new KeyValuePair<TurnPlayers, Turn>(TurnPlayers.player, Turn.cross);
+        else
+        {
+            firstPlayer.side = Side.zero;
+            secondPlayer.side = Side.cross;
+        }
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
-        if (EventManager.Instance != null)
-        {
-            EventManager.Instance.Remove(EventManager.events.CellTaped, TurnDone);
-            EventManager.Instance.Remove(EventManager.events.GameEnded, ResetBoard);
-        }
-        Destroy(this);
+        EventManager.Instance.Remove(EventManager.events.CellTaped, DoTurn);
     }
 
-    void TurnDone(object[] args)
+    private void ChangeStartTurn()
     {
-        if (mode == GameMode.AI)
+        startTurn = ChangeTurn(startTurn);
+        currentTurn = startTurn;
+    }
+
+    private Turn ChangeTurn(Turn turn)
+    {
+        if (turn == Turn.firstPlayer)
         {
-            if (whoStarts == TurnPlayers.player)
-            {
-                whoStarts = TurnPlayers.AI;
-            }
-            else
-            {
-                whoStarts = TurnPlayers.player;
-            }
+            return Turn.secondPlayer;
         }
-        int row = (int)args[0];
-        int column = (int)args[1];
-        bool isCellFound = false;
+        else
+        {
+            return Turn.firstPlayer;
+        }
+    }
+
+    void DoTurn(object[] param)
+    {
+        int row = (int)param[0];
+        int column = (int)param[1];
+        if (isCellEmpty(row, column))
+        {
+            Side side = GetPlayerSide(currentTurn);
+            GameObject mark = GetPlayerSideObject(side);
+            elementsOnBoard.Add(mark);
+            TapElementController cell = GetCellByCoord(row, column);
+            mark.transform.position = cell.transform.position;
+            cell.FillCell();
+            SetTurnInterpretation(side, row, column);
+
+            //check whether the game has ended
+
+            currentTurn = ChangeTurn(currentTurn);
+        }
+    }
+    
+
+    private void SetTurnInterpretation(Side side, int row, int column)
+    {
+        board[row, column] = side;
+    }
+
+    private TapElementController GetCellByCoord(int row, int column)
+    {
         foreach (TapElementController cell in cells)
         {
-            if ((cell.GetPosition()._row == row) && (cell.GetPosition()._column == column))
+            if ((cell.row == row) && (cell.column == column))
             {
-                if (cell.isAvailable)
-                {
-                    EventManager.Instance.Call(EventManager.events.playClick, new object[] { SoundTypes.click });
-                    isCellFound = true;
-                    if (turn == Turn.cross)
-                    {
-                        elementsOnTheBoard.Add((GameObject)Instantiate(cross, cell.transform.position, cell.transform.rotation));
-                        turn = Turn.zero;
-                        boardCheck[row, column] = 1;
-                    }
-                    else
-                    {
-                        elementsOnTheBoard.Add((GameObject)Instantiate(zero, cell.transform.position, cell.transform.rotation));
-                        turn = Turn.cross;
-                        boardCheck[row, column] = 2;
-                    }
-                    cell.FillCell();
-                    if (CheckGame(boardCheck))
-                    {
-                        Turn winner = GetWinner(boardCheck);
-                        #region bad if for refactoring
-                        if (winner == startPair.Value)
-                        {
-                            scores[GameResult.firstPlayer] = scores[GameResult.firstPlayer] + 1;
-                        }
-                        else
-                        {
-                            if (winner == Turn.draw)
-                            {
-                                scores[GameResult.draw] = scores[GameResult.draw] + 1;
-                            }
-                            else
-                            {
-                                scores[GameResult.secondPlayer] = scores[GameResult.secondPlayer] + 1;
-                            }
-                        }
-
-
-
-                        //switch (winner)
-                        //{
-                        //    case Turn.cross:
-                        //        scores[GameResult.firstPlayer] = scores[GameResult.firstPlayer] + 1;
-                        //        break;
-                        //    case Turn.draw:
-                        //        scores[GameResult.draw] = scores[GameResult.draw] + 1;
-                        //        break;
-                        //    case Turn.zero:
-                        //        scores[GameResult.secondPlayer] = scores[GameResult.secondPlayer] + 1;
-                        //        break;
-                        //    default:
-                        //        throw new System.Exception("No winner");
-                        //}
-
-                        #endregion
-                        foreach (KeyValuePair<GameResult, int> entry in scores)
-                        {
-                            Debug.Log(entry.Key.ToString() + " " + entry.Value.ToString());
-                        }
-                        ResetVisualBoard(cellStates.full);
-                    }
-                    else
-                    {
-                        if (mode == GameMode.AI)
-                        {
-                            if (whoStarts == TurnPlayers.AI)
-                            {
-                                Pair move = ai.GetNextMove(boardCheck, 3, 3, turn);
-                                TurnDone(new object[] { move._row, move._column });
-                            }
-                        }
-                    }
-                }
+                return cell;
             }
         }
-        if (!isCellFound)
+        throw new System.Exception("No cell with such row|column found!!!!");
+    }
+
+    private Side GetPlayerSide(Turn turn)
+    {
+        if (turn == Turn.firstPlayer)
         {
-            if (whoStarts == TurnPlayers.player)
+            return firstPlayer.side;
+        }
+        else
+        {
+            return secondPlayer.side;
+        }
+    }
+
+    private GameObject GetPlayerSideObject(Side side)
+    {
+        if (side == Side.cross)
+        {
+            return Instantiate(crossElement);
+        }
+        if(side == Side.zero)
+        {
+            return Instantiate(zeroElement);
+        }
+        else
+        {
+            throw new System.Exception("Some bad side");
+        }
+
+    }
+
+    private bool isCellEmpty(int row, int column)
+    {
+        return board[row, column] == Side.empty;
+    }
+
+    private void ClearBoardInterpretation()
+    {
+        for (int row = 0; row < ROWS; row++)
+        {
+            for (int column = 0; column < COLUMNS; column++)
             {
-                whoStarts = TurnPlayers.AI;
-            }
-            else
-            {
-                whoStarts = TurnPlayers.player;
+                board[row, column] = Side.empty;
             }
         }
     }
 
-    void ResetBoard(object[] obj)
+    private void ResetBoard()
     {
-        foreach (GameObject element in elementsOnTheBoard)
+        foreach (TapElementController cell in cells)
+        {
+            cell.SetFree();
+        }
+        foreach (GameObject element in elementsOnBoard)
         {
             Destroy(element);
         }
-        ResetVisualBoard(cellStates.free);
-        whoStarts = TurnPlayers.player;
+        ClearBoardInterpretation();
+        SetAIMode();
+        ChangeStartTurn();
+        AssignSides(startTurn);
     }
 
-    void ResetVisualBoard(cellStates state)
+    private void SetAIMode()
     {
-        for (int row = 0; row < ROWS; row++)
+        if (PlayerPrefs.HasKey("mode"))
         {
-            for (int column = 0; column < COLUMNS; column++)
+            if (PlayerPrefs.GetInt("mode") == 0)
             {
-                boardCheck[row, column] = -1;
-            }
-        }
-        foreach (TapElementController cell in cells)
-        {
-            if (state == cellStates.free)
-                cell.SetFree();
-            else
-                cell.FillCell();
-        }
-        startPair = new KeyValuePair<TurnPlayers, Turn>(TurnPlayers.player, startTurn);
-    }
-
-    public bool CheckGame(int[,] boardCheck)
-    {
-        for (int row = 0; row < ROWS; row++)
-        {
-            if (TicTacToeLineCheck(boardCheck[row, 0], boardCheck[row, 1], boardCheck[row, 2]))
-                return true;
-        }
-        for (int column = 0; column < COLUMNS; column++)
-        {
-            if (TicTacToeLineCheck(boardCheck[0, column], boardCheck[1, column], boardCheck[2, column]))
-                return true;
-        }
-
-        if (TicTacToeLineCheck(boardCheck[0, 0], boardCheck[1, 1], boardCheck[2, 2]))
-            return true;
-
-        if (TicTacToeLineCheck(boardCheck[0, 2], boardCheck[1, 1], boardCheck[2, 0]))
-            return true;
-
-        for (int row = 0; row < ROWS; row++)
-        {
-            for (int column = 0; column < COLUMNS; column++)
-            {
-                if (boardCheck[row, column] == -1)
-                    return false;
-            }
-        }
-
-        return true;
-    }
-
-    bool TicTacToeLineCheck(int one, int two, int three)
-    {
-        if ((one == -1) || (two == -1) || (three == -1))
-            return false;
-        return ((one == two) && (two == three));
-    }
-
-    public void NewGame()
-    {
-        ResetBoard(null);
-    }
-
-    public Turn GetWinner(int[,] board)
-    {
-        for (int row = 0; row < ROWS; row++)
-        {
-            if (TicTacToeLineCheck(boardCheck[row, 0], boardCheck[row, 1], boardCheck[row, 2]))
-                if (boardCheck[row, 0] == 1)
-                {
-                    return Turn.cross;
-                }
-                else
-                {
-                    return Turn.zero;
-                }
-        }
-        for (int column = 0; column < COLUMNS; column++)
-        {
-            if (TicTacToeLineCheck(boardCheck[0, column], boardCheck[1, column], boardCheck[2, column]))
-                if (boardCheck[0, column] == 1)
-                {
-                    return Turn.cross;
-                }
-                else
-                {
-                    return Turn.zero;
-                }
-        }
-
-        if (TicTacToeLineCheck(boardCheck[0, 0], boardCheck[1, 1], boardCheck[2, 2]))
-            if (boardCheck[0, 0] == 1)
-            {
-                return Turn.cross;
+                isAI = true;
             }
             else
             {
-                return Turn.zero;
+                isAI = false;
             }
-
-        if (TicTacToeLineCheck(boardCheck[0, 2], boardCheck[1, 1], boardCheck[2, 0]))
-            if (boardCheck[0, 2] == 1)
-            {
-                return Turn.cross;
-            }
-            else
-            {
-                return Turn.zero;
-            }
-
-        return Turn.draw;
+        }
+        else
+        {
+            isAI = true;
+        }
     }
-
-    public void BackToMenu()
-    {
-        ResetBoard(null);
-        Application.LoadLevel("MainMenu");
-    }
-
 }
