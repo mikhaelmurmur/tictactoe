@@ -8,6 +8,11 @@ public enum Turn
     secondPlayer
 }
 
+public struct Scoring
+{
+    public int firstPlayerPoints, secondPlayerPoint, draws;
+}
+
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField]
@@ -22,9 +27,12 @@ public class GameManager : Singleton<GameManager>
     Turn currentTurn;
     bool isAI = false;
     PlayerEntity firstPlayer, secondPlayer;
+    Scoring scoringList = new Scoring() { firstPlayerPoints = 0, secondPlayerPoint = 0, draws = 0 };
 
     private void OnEnable()
     {
+        firstPlayer = new PlayerEntity();
+        secondPlayer = new PlayerEntity();
         ResetBoard();
         ChangeStartTurn();
         EventManager.Instance.Add(EventManager.events.CellTaped, DoTurn);
@@ -47,7 +55,8 @@ public class GameManager : Singleton<GameManager>
 
     private void OnDisable()
     {
-        EventManager.Instance.Remove(EventManager.events.CellTaped, DoTurn);
+        if (EventManager.Instance != null)
+            EventManager.Instance.Remove(EventManager.events.CellTaped, DoTurn);
     }
 
     private void ChangeStartTurn()
@@ -81,13 +90,86 @@ public class GameManager : Singleton<GameManager>
             mark.transform.position = cell.transform.position;
             cell.FillCell();
             SetTurnInterpretation(side, row, column);
-
-            //check whether the game has ended
-
-            currentTurn = ChangeTurn(currentTurn);
+            Side winner = GameManager.GetWinner(board);
+            if (winner != Side.empty)
+            {
+                RefreshScore(winner);
+                FillAllCells(board);
+            }
+            else
+            {
+                if (GameManager.IsFreeCellAvailable(board))
+                    currentTurn = ChangeTurn(currentTurn);
+                else
+                {
+                    RefreshScore(winner);
+                    FillAllCells(board);
+                }
+            }
         }
     }
-    
+
+    private void RefreshScore(Side winner)
+    {
+        if (winner == Side.empty)
+        {
+            scoringList.draws++;
+            return;
+        }
+        if (firstPlayer.side == winner)
+        {
+            scoringList.firstPlayerPoints++;
+        }
+        else
+        {
+            scoringList.secondPlayerPoint++;
+        }
+    }
+
+    public static bool IsFreeCellAvailable(Side[,] board)
+    {
+        int rows = board.GetLength(0);
+        int columns = board.GetLength(1);
+        for (int row = 0; row < rows; row++)
+        {
+            for (int column = 0; column < columns; column++)
+            {
+                if (board[row, column] == Side.empty)
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    public static Side GetWinner(Side[,] board)
+    {
+        Side winner = Side.empty;
+        int rows = board.GetLength(0);
+        int columns = board.GetLength(1);
+
+        for (int row = 0; row < rows; row++)
+        {
+            if (board[row, 0] == board[row, 1] && board[row, 1] == board[row, 2]
+                && board[row, 0] != Side.empty && board[row, 0] != Side.nothing)
+                winner = board[row, 0];
+        }
+
+        for (int column = 0; column < columns; column++)
+        {
+            if (board[0, column] == board[1, column] && board[1, column] == board[2, column]
+                && board[0, column] != Side.empty && board[0, column] != Side.nothing)
+                winner = board[0, column];
+        }
+
+        if (board[0, 0] == board[1, 1] && board[1, 1] == board[2, 2]
+            && board[1, 1] != Side.empty && board[1, 1] != Side.nothing)
+            winner = board[1, 1];
+        if (board[0, 2] == board[1, 1] && board[1, 1] == board[2, 0]
+            && board[1, 1] != Side.empty && board[1, 1] != Side.nothing)
+            winner = board[1, 1];
+
+        return winner;
+    }
 
     private void SetTurnInterpretation(Side side, int row, int column)
     {
@@ -124,7 +206,7 @@ public class GameManager : Singleton<GameManager>
         {
             return Instantiate(crossElement);
         }
-        if(side == Side.zero)
+        if (side == Side.zero)
         {
             return Instantiate(zeroElement);
         }
@@ -183,6 +265,19 @@ public class GameManager : Singleton<GameManager>
         else
         {
             isAI = true;
+        }
+    }
+
+    private void FillAllCells(Side[,] board)
+    {
+        int rows = board.GetLength(0);
+        int columns = board.GetLength(1);
+        for (int row = 0; row < rows; row++)
+        {
+            for (int column = 0; column < columns; columns++)
+            {
+                board[row, column] = Side.nothing;
+            }
         }
     }
 }

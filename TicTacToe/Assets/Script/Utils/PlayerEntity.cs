@@ -6,7 +6,8 @@ public enum Side
 {
     cross,
     zero,
-    empty
+    empty,
+    nothing
 }
 public class PlayerEntity
 {
