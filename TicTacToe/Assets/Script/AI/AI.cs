@@ -13,6 +13,7 @@ public static class AI
     {
         public int row, column;
     }
+
     static public Pair GetNextTurn(Side[,] board, Side mySide)
     {
         AI.mySide = mySide;
@@ -59,6 +60,10 @@ public static class AI
     {
         Side[,] board = GetCopyBoard(_board);
         Side winner = GameManager.GetWinner(board);
+        if (board[0, 1] != Side.empty)
+        {
+            int k = 0;
+        }
         if ((winner == Side.empty && !GameManager.IsFreeCellAvailable(board)) || winner != Side.empty)
         {
             return GetScore(winner, depth);
@@ -77,13 +82,15 @@ public static class AI
         if (currentSide == mySide)
         {
             int maxIndex = (from x in scores orderby x select scores.IndexOf(x)).Last();
-            resultMove = moves[maxIndex];
+            if (depth == 1)
+                resultMove = moves[maxIndex];
             return scores[maxIndex];
         }
         else
         {
             int maxIndex = (from x in scores orderby x select scores.IndexOf(x)).First();
-            resultMove = moves[maxIndex];
+            if (depth == 1)
+                resultMove = moves[maxIndex];
             return scores[maxIndex];
         }
     }
@@ -97,8 +104,9 @@ public static class AI
 
     private static Side[,] DoMove(Side[,] board, Side currentSide, int row, int column)
     {
-        board[row, column] = currentSide;
-        return board;
+        Side[,] resultBoard = GetCopyBoard(board);
+        resultBoard[row, column] = currentSide;
+        return resultBoard;
     }
 
     private static List<Pair> GetAvailableMoves(Side[,] board)
