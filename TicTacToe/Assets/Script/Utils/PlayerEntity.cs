@@ -13,6 +13,5 @@ public class PlayerEntity
 {
     public Side side { get; set; }
 
-
 }
 

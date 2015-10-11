@@ -25,6 +25,7 @@ public class GameManager : Singleton<GameManager>
     Side[,] board = new Side[ROWS, COLUMNS];
     Turn startTurn = Turn.firstPlayer;
     Turn currentTurn;
+    private Turn AITurn;
     bool isAI = false;
     PlayerEntity firstPlayer, secondPlayer;
     Scoring scoringList = new Scoring() { firstPlayerPoints = 0, secondPlayerPoint = 0, draws = 0 };
@@ -77,34 +78,40 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    void DoTurn(object[] param)
+    private void DoTurn(object[] param)
     {
         int row = (int)param[0];
         int column = (int)param[1];
-        if (isCellEmpty(row, column))
+        if (!isCellEmpty(row, column)) return;
+
+        Side side = GetPlayerSide(currentTurn);
+        GameObject mark = GetPlayerSideObject(side);
+        elementsOnBoard.Add(mark);
+        TapElementController cell = GetCellByCoord(row, column);
+        mark.transform.position = cell.transform.position;
+        cell.FillCell();
+        SetTurnInterpretation(side, row, column);
+        Side winner = GameManager.GetWinner(board);
+        if (winner != Side.empty)
         {
-            Side side = GetPlayerSide(currentTurn);
-            GameObject mark = GetPlayerSideObject(side);
-            elementsOnBoard.Add(mark);
-            TapElementController cell = GetCellByCoord(row, column);
-            mark.transform.position = cell.transform.position;
-            cell.FillCell();
-            SetTurnInterpretation(side, row, column);
-            Side winner = GameManager.GetWinner(board);
-            if (winner != Side.empty)
+            RefreshScore(winner);
+            FillAllCells(ref board);
+        }
+        else
+        {
+            if (GameManager.IsFreeCellAvailable(board))
             {
-                RefreshScore(winner);
-                FillAllCells(board);
+                currentTurn = ChangeTurn(currentTurn);
+                if (isAI && currentTurn != AITurn)
+                {
+                    AI.Pair move = AI.GetNextTurn(board, secondPlayer.side); //maybe a mistake with player's side
+                    DoTurn(new object[] { move.row, move.column });
+                }
             }
             else
             {
-                if (GameManager.IsFreeCellAvailable(board))
-                    currentTurn = ChangeTurn(currentTurn);
-                else
-                {
-                    RefreshScore(winner);
-                    FillAllCells(board);
-                }
+                RefreshScore(winner);
+                FillAllCells(ref board);
             }
         }
     }
@@ -256,6 +263,7 @@ public class GameManager : Singleton<GameManager>
             if (PlayerPrefs.GetInt("mode") == 0)
             {
                 isAI = true;
+                AITurn = currentTurn;
             }
             else
             {
@@ -265,19 +273,36 @@ public class GameManager : Singleton<GameManager>
         else
         {
             isAI = true;
+            AITurn = currentTurn;
         }
     }
 
-    private void FillAllCells(Side[,] board)
+    private void FillAllCells(ref Side[,] board)
     {
-        int rows = board.GetLength(0);
-        int columns = board.GetLength(1);
+        int rows = ROWS;
+        int columns = COLUMNS;
         for (int row = 0; row < rows; row++)
         {
-            for (int column = 0; column < columns; columns++)
+            for (int column = 0; column < columns; column++)
             {
                 board[row, column] = Side.nothing;
             }
+        }
+    }
+
+    public void BackToMenu()
+    {
+        Application.LoadLevel("MainMenu");
+    }
+
+    public void StartNewGame()
+    {
+        ResetBoard();
+        ChangeStartTurn();
+        AssignSides(startTurn);
+        if (AITurn != startTurn)
+        {
+            SetAIMode();
         }
     }
 }
